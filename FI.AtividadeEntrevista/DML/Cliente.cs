@@ -15,6 +15,8 @@ namespace FI.AtividadeEntrevista.DML
         /// Id
         /// </summary>
         public long Id { get; set; }
+
+        public string CPF { get; set; }
         
         /// <summary>
         /// CEP
@@ -59,6 +61,15 @@ namespace FI.AtividadeEntrevista.DML
         /// <summary>
         /// Telefone
         /// </summary>
-        public string Telefone { get; set; }        
-    }    
+        public string Telefone { get; set; }
+
+        public List<Beneficiario> Beneficiarios { get; set; }
+    }
+    
+    public class Beneficiario
+    {
+        public string CPF { get; set; }
+
+        public string Nome { get; set; }
+    }
 }

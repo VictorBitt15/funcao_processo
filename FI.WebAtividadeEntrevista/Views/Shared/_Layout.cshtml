@@ -22,7 +22,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
-                    <li>@Html.ActionLink("Clientes", "Index", "Cliente", new { area = "" }, null)</li>                    
+                    <li>@Html.ActionLink("Clientes", "Index", "Cliente", new { area = "" }, null)</li>
                 </ul>
             </div>
         </div>
@@ -39,6 +39,7 @@
     @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/jtable")
     @Scripts.Render("~/bundles/bootstrap")
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/4.0.9/jquery.inputmask.bundle.min.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

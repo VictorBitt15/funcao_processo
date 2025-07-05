@@ -1,4 +1,4 @@
-﻿CREATE PROC FI_SP_IncClienteV2
+﻿ALTER PROC FI_SP_IncClienteV2
     @NOME          VARCHAR (50) ,
     @SOBRENOME     VARCHAR (255),
     @NACIONALIDADE VARCHAR (50) ,

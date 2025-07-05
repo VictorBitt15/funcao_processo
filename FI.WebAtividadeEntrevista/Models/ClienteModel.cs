@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using FI.AtividadeEntrevista.DML;
 
 namespace WebAtividadeEntrevista.Models
 {
@@ -12,7 +13,10 @@ namespace WebAtividadeEntrevista.Models
     public class ClienteModel
     {
         public long Id { get; set; }
-        
+
+        [Required]
+        public string CPF { get; set; }
+
         /// <summary>
         /// CEP
         /// </summary>
@@ -67,5 +71,6 @@ namespace WebAtividadeEntrevista.Models
         /// </summary>
         public string Telefone { get; set; }
 
-    }    
+        public List<Beneficiario> Beneficiarios { get; set; }
+    }
 }

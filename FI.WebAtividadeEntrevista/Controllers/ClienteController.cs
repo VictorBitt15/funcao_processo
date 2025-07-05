@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using FI.AtividadeEntrevista.DML;
+using FI.WebAtividadeEntrevista.Utils;
 
 namespace WebAtividadeEntrevista.Controllers
 {
@@ -25,8 +26,39 @@ namespace WebAtividadeEntrevista.Controllers
         [HttpPost]
         public JsonResult Incluir(ClienteModel model)
         {
+            if (!Validador.ValidaCPF(model.CPF))
+            {
+                Response.StatusCode = 400;
+                return Json(string.Join(Environment.NewLine, "CPF do cliente Inválido, digite novamente."));
+            }
+
             BoCliente bo = new BoCliente();
-            
+            if (bo.VerificarExistencia(model.CPF))
+            {
+                Response.StatusCode = 400;
+                return Json(string.Join(Environment.NewLine, "CPF já cadastrado."));
+            }
+
+            if (model.Beneficiarios == null)
+            {
+                model.Beneficiarios = new List<Beneficiario>();
+            }
+
+            if (!Validador.VerificaCPFsDuplicadosBeneficiarios(model.Beneficiarios))
+            {
+                Response.StatusCode = 400;
+                return Json(string.Join(Environment.NewLine, "Exitem beneficiários com CPFs duplicados na lista."));
+            }
+            foreach (Beneficiario beneficiario in model.Beneficiarios)
+            {
+                if (!Validador.ValidaCPF(beneficiario.CPF))
+                {
+                    Response.StatusCode = 400;
+                    return Json(string.Join(Environment.NewLine, "CPF do beneficiário " + beneficiario.Nome + " é inválido, por favor digite novamente."));
+                }
+            }
+
+
             if (!this.ModelState.IsValid)
             {
                 List<string> erros = (from item in ModelState.Values
@@ -49,7 +81,9 @@ namespace WebAtividadeEntrevista.Controllers
                     Nacionalidade = model.Nacionalidade,
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
-                    Telefone = model.Telefone
+                    Telefone = model.Telefone,
+                    CPF = model.CPF,
+                    Beneficiarios = model.Beneficiarios,
                 });
 
            
@@ -60,8 +94,43 @@ namespace WebAtividadeEntrevista.Controllers
         [HttpPost]
         public JsonResult Alterar(ClienteModel model)
         {
+            if (!Validador.ValidaCPF(model.CPF))
+            {
+                Response.StatusCode = 400;
+                return Json(string.Join(Environment.NewLine, "CPF do cliente Inválido, digite novamente."));
+            }
+            
+
             BoCliente bo = new BoCliente();
-       
+            if (!bo.Consultar(model.Id).CPF.Equals(model.CPF))
+            {
+                if (bo.VerificarExistencia(model.CPF))
+                {
+                    Response.StatusCode = 400;
+                    return Json(string.Join(Environment.NewLine, "CPF já cadastrado."));
+                }
+            }
+
+            if (model.Beneficiarios == null)
+            {
+                model.Beneficiarios = new List<Beneficiario>();
+            }
+
+
+            if (!Validador.VerificaCPFsDuplicadosBeneficiarios(model.Beneficiarios))
+            {
+                Response.StatusCode = 400;
+                return Json(string.Join(Environment.NewLine, "Exitem beneficiários com CPFs duplicados na lista."));
+            }
+            foreach (Beneficiario beneficiario in model.Beneficiarios)
+            {
+                if (!Validador.ValidaCPF(beneficiario.CPF))
+                {
+                    Response.StatusCode = 400;
+                    return Json(string.Join(Environment.NewLine, "CPF do beneficiário " + beneficiario.Nome + " é inválido, por favor digite novamente."));
+                }
+            }
+
             if (!this.ModelState.IsValid)
             {
                 List<string> erros = (from item in ModelState.Values
@@ -84,7 +153,9 @@ namespace WebAtividadeEntrevista.Controllers
                     Nacionalidade = model.Nacionalidade,
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
-                    Telefone = model.Telefone
+                    Telefone = model.Telefone,
+                    CPF = model.CPF,
+                    Beneficiarios = model.Beneficiarios
                 });
                                
                 return Json("Cadastro alterado com sucesso");
@@ -111,7 +182,9 @@ namespace WebAtividadeEntrevista.Controllers
                     Nacionalidade = cliente.Nacionalidade,
                     Nome = cliente.Nome,
                     Sobrenome = cliente.Sobrenome,
-                    Telefone = cliente.Telefone
+                    Telefone = cliente.Telefone,
+                    CPF = cliente.CPF,
+                    Beneficiarios = cliente.Beneficiarios
                 };
 
             

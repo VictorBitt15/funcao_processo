@@ -1,18 +1,25 @@
 ﻿
 <form id="formCadastro" method="post">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="form-group">
                 <label for="Nome">Nome:</label>
                 <input required="required" type="text" class="form-control" id="Nome" name="Nome" placeholder="Ex.: João" maxlength="50">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="Sobrenome">Sobrenome:</label>
+                <input required="required" type="text" class="form-control" id="Sobrenome" name="Sobrenome" placeholder="Ex.: da Silva" maxlength="255">
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label for="Sobrenome">Sobrenome:</label>
-                <input required="required" type="text" class="form-control" id="Sobrenome" name="Sobrenome" placeholder="Ex.: da Silva" maxlength="255">
+                <label for="CPF">CPF:</label>
+                <input required="required" type="text" class="form-control" id="CPF" name="CPF" placeholder="Ex.: 999.999.999-99">
+                <div id="cpf-error" class="error-message" style="display: none;"></div>
             </div>
         </div>
         <div class="col-md-6">
@@ -71,15 +78,68 @@
             </div>
         </div>
     </div>
-
     <div class="row">
         <div class="col-lg-12">
+            <div class="pull-left">
+                <button id="btnBeneficiarios" type="button" class="btn btn-primary" data-toggle="modal" data-target="#beneficiariosModal">
+                    Beneficiários
+                </button>
+            </div>
             <div class="pull-right">
                 <button type="submit" class="btn btn-sm btn-success">Salvar</button>
                 @Html.ActionLink("Voltar", "Index", "Cliente", new { }, new { @class = "btn btn-sm btn-danger" })
             </div>
         </div>
     </div>
-
-
 </form>
+<div class="modal fade" id="beneficiariosModal" tabindex="-1" role="dialog" aria-labelledby="beneficiariosModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="beneficiariosModalLabel">Beneficiários</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>CPF:</label>
+                            <input type="text" class="form-control" required="required" id="BeneficiarioCPF" placeholder="Ex.: 999.999.999-99" name="BeneficiarioCPF">
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>Nome:</label>
+                            <input type="text" class="form-control" required="required" id="BeneficiarioNome" placeholder="Ex.:Maria" name="BeneficiarioNome" maxlength="50">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="pull-right" style="margin-top:1.7em">
+                            <button id="incluirBenefCliente" type="button" class="btn btn-success form-control">Incluir</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="table" class="table-editable">
+                    <table id="tableBeneficiarios" class="table table-responsive-sm table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">CPF</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyBeneficiarios"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .linha-editando {
+        background-color: #fff3cd !important; 
+    }
+</style>

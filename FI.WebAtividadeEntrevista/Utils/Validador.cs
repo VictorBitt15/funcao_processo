@@ -9,6 +9,14 @@ namespace FI.WebAtividadeEntrevista.Utils
 {
     public static class Validador
     {
+        public static bool VeficaBeneficiorioIgualCliente(List<Beneficiario> beneficiarios, string cpfCliente)
+        {
+            if (beneficiarios.Any(x=>x.CPF == cpfCliente))
+            {
+                return false;
+            }
+            return true;
+        }
         public static bool VerificaCPFsDuplicadosBeneficiarios(List<Beneficiario> beneficiarios)
         {
             var beneficiariosDistintos = beneficiarios.DistinctBy(x => x.CPF).ToList();

@@ -43,7 +43,12 @@ namespace WebAtividadeEntrevista.Controllers
             {
                 model.Beneficiarios = new List<Beneficiario>();
             }
+            if (!Validador.VeficaBeneficiorioIgualCliente(model.Beneficiarios, model.CPF))
+            {
+                Response.StatusCode = 400;
+                return Json(string.Join(Environment.NewLine, "CPF do beneficiário não pode ser igual ao CPF do cliente."));
 
+            }
             if (!Validador.VerificaCPFsDuplicadosBeneficiarios(model.Beneficiarios))
             {
                 Response.StatusCode = 400;
@@ -115,7 +120,12 @@ namespace WebAtividadeEntrevista.Controllers
             {
                 model.Beneficiarios = new List<Beneficiario>();
             }
+            if (!Validador.VeficaBeneficiorioIgualCliente(model.Beneficiarios, model.CPF))
+            {
+                Response.StatusCode = 400;
+                return Json(string.Join(Environment.NewLine, "CPF do beneficiário não pode ser igual ao CPF do cliente."));
 
+            }
 
             if (!Validador.VerificaCPFsDuplicadosBeneficiarios(model.Beneficiarios))
             {
